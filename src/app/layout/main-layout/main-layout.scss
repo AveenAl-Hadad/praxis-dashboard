@@ -1,5 +1,23 @@
-.container { height: 100vh; }
-.sidenav { width: 240px; padding: 12px; }
-.logo { margin: 8px 0 16px; }
-.content { padding: 16px; }
-.spacer { flex: 1; }
+.layout {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 200px;
+  background: #1976d2;
+  color: white;
+  padding: 20px;
+}
+
+.sidebar a {
+  display: block;
+  color: white;
+  margin: 10px 0;
+  text-decoration: none;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+}

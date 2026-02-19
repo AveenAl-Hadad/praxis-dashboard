@@ -1,19 +1,14 @@
-<mat-sidenav-container class="container">
-  <mat-sidenav class="sidenav" mode="side" opened>
-    <h2 class="logo">Praxis</h2>
+<div class="layout">
+  <aside class="sidebar">
+    <h2>Praxis</h2>
+    <nav>
+      <a routerLink="/dashboard">Dashboard</a>
+      <a routerLink="/patients">Patients</a>
+      <a routerLink="/appointments">Appointments</a>
+    </nav>
+  </aside>
 
-    <a mat-list-item routerLink="/dashboard">Dashboard</a>
-    <a mat-list-item routerLink="/patients">Patients</a>
-    <a mat-list-item routerLink="/appointments">Appointments</a>
-  </mat-sidenav>
-
-  <mat-sidenav-content>
-    <mat-toolbar color="primary">
-      <span>Praxis‑Dashboard</span>
-    </mat-toolbar>
-
-    <div class="content">
-      <router-outlet></router-outlet>
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

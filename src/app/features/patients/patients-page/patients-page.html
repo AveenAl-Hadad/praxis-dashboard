@@ -1,1 +1,9 @@
-<p>patients-page works!</p>
+<h1>Patients</h1>
+
+<div *ngIf="loading">Loading...</div>
+
+<ul *ngIf="!loading">
+  <li *ngFor="let p of patients">
+    {{ p.firstName }} {{ p.lastName }} ({{ p.insurance }})
+  </li>
+</ul>
