@@ -6,22 +6,17 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     loadComponent: () =>
-      import('./features/dashboard/dashboard-page/dashboard-page')
-        .then(m => m.DashboardPage),
+      import('./features/dashboard/dashboard-page/dashboard-page').then(m => m.DashboardPage),
   },
-
   {
     path: 'patients',
     loadComponent: () =>
-      import('./features/patients/patients-page/patients-page')
-        .then(m => m.PatientsPage),
+      import('./features/patients/patients-page/patients-page').then(m => m.PatientsPage),
   },
-
   {
     path: 'appointments',
     loadComponent: () =>
-      import('./features/appointments/appointments-page/appointments-page')
-        .then(m => m.AppointmentsPage),
+      import('./features/appointments/appointments-page/appointments-page').then(m => m.AppointmentsPage),
   },
 
   { path: '**', redirectTo: 'dashboard' },

@@ -1,8 +1,76 @@
 {
   "patients": [
-    { "id": 1, "firstName": "Anna", "lastName": "Meyer", "birthDate": "1988-02-10", "insurance": "gesetzlich" }
+    {
+      "id": "1",
+      "firstName": "Anna",
+      "lastName": "Meyer",
+      "birthDate": "1988-02-10",
+      "insurance": "gesetzlich"
+    },
+    {
+      "id": "2",
+      "firstName": "Omar",
+      "lastName": "Khalil",
+      "birthDate": "1992-07-22",
+      "insurance": "privat"
+    },
+    {
+      "id": "3",
+      "firstName": "Max ",
+      "lastName": "Muster",
+      "birthDate": "1992-05-31",
+      "insurance": "privat"
+    },
+    {
+      "id": 4,
+      "firstName": "Linda",
+      "lastName": "MÜhler",
+      "birthDate": "1993-03-17",
+      "insurance": "gesetzlich"
+    },
+    {
+      "id": 5,
+      "firstName": "Linda",
+      "lastName": "Fieber",
+      "birthDate": "2000-04-01",
+      "insurance": "gesetzlich"
+    },
+    {
+      "id": "6",
+      "firstName": "Violet",
+      "lastName": "Bose",
+      "birthDate": "1990-02-01",
+      "insurance": "gesetzlich"
+    },
+    {
+      "id": 7,
+      "firstName": "Sara",
+      "lastName": "Abo",
+      "birthDate": "1970-06-30",
+      "insurance": "gesetzlich"
+    },
+    {
+      "id": 8,
+      "firstName": "Lyla",
+      "lastName": "Hamo",
+      "birthDate": "1994-04-03",
+      "insurance": "privat"
+    }
   ],
   "appointments": [
-    { "id": 1, "patientId": 1, "start": "2026-02-20T09:00:00", "end": "2026-02-20T09:20:00", "reason": "Kontrolle" }
+    {
+      "id": "1",
+      "patientId": 1,
+      "start": "2026-02-22T09:00:00",
+      "end": "2026-02-22T09:20:00",
+      "reason": "Kontrolle"
+    },
+    {
+      "id": "2",
+      "patientId": 2,
+      "start": "2026-02-22T10:00:00",
+      "end": "2026-02-22T10:30:00",
+      "reason": "Erstgespräch"
+    }
   ]
 }

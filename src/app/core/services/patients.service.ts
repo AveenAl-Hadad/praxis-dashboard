@@ -2,7 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Patient } from '../models/patient.model';
-
+import { switchMap } from 'rxjs/operators';
+/**
+ * Service CRUD
+ * 
+ */
 @Injectable({ providedIn: 'root' })
 export class PatientsService {
   private readonly baseUrl = 'http://localhost:3000/patients';
@@ -13,19 +17,16 @@ export class PatientsService {
     return this.http.get<Patient[]>(this.baseUrl);
   }
 
-  get(id: number): Observable<Patient> {
-    return this.http.get<Patient>(`${this.baseUrl}/${id}`);
-  }
-
-  create(payload: Omit<Patient, 'id'>): Observable<Patient> {
-    return this.http.post<Patient>(this.baseUrl, payload);
-  }
-
-  update(id: number, payload: Omit<Patient, 'id'>): Observable<Patient> {
-    return this.http.put<Patient>(`${this.baseUrl}/${id}`, payload);
-  }
-
-  remove(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
-  }
+   create(payload: Omit<Patient, 'id'>): Observable<Patient> {
+  return this.list().pipe(
+    switchMap(list => {
+      const maxId = Math.max(...list.map(p => Number(p.id)), 0);
+      return this.http.post<Patient>(this.baseUrl, {
+        id: maxId + 1,
+        ...payload
+      });
+    })
+  );
+}
+ 
 }

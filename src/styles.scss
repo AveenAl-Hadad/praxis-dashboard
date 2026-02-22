@@ -1,5 +1,32 @@
+// Angular Material Theming (Material 3)
 @use '@angular/material' as mat;
 
-/* erst NACH @use darf anderes kommen */
-* { box-sizing: border-box; }
-body { margin: 0; font-family: Arial, sans-serif; }
+html {
+  height: 100%;
+  @include mat.theme((
+    color: (
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+
+  // Material system variables
+  color-scheme: light;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+
+  // optional fallback font
+  font-family: Roboto, Arial, sans-serif;
+}

@@ -1,9 +1,7 @@
-export type Insurance = 'gesetzlich' | 'privat' | 'selbstzahler';
-
 export interface Patient {
-  id: number;
+  id: string; // json-server kann string ids generieren
   firstName: string;
   lastName: string;
-  birthDate: string; // ISO yyyy-mm-dd
-  insurance: Insurance;
+  birthDate: string; // yyyy-mm-dd
+  insurance: string;
 }

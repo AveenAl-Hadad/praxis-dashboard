@@ -1,1 +1,23 @@
-<p>appointments-page works!</p>
+<h1>Appointments</h1>
+
+<div *ngIf="loading">Loading...</div>
+
+<div *ngIf="!loading">
+  <h3>List</h3>
+  <ul>
+    <li *ngFor="let a of appointments">
+      Patient #{{ a.patientId }} —
+      {{ a.start }} → {{ a.end }} —
+      {{ a.reason }}
+    </li>
+  </ul>
+
+  <h3 style="margin-top: 16px;">Collisions</h3>
+  <div *ngIf="collisions.length === 0">No collisions ✅</div>
+
+  <ul *ngIf="collisions.length > 0">
+    <li *ngFor="let pair of collisions">
+      Collision: Appointment {{ pair[0].id }} overlaps with {{ pair[1].id }}
+    </li>
+  </ul>
+</div>
