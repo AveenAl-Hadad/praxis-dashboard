@@ -9,6 +9,7 @@ import { MATERIAL } from '../../../shared/material';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, ...MATERIAL],
   templateUrl: './add-patient-dialog.html',
+  styleUrls: ['./add-patient-dialog.scss']
 })
 export class AddPatientDialog {
   form: FormGroup;

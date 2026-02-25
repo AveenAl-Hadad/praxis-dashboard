@@ -1,23 +1,23 @@
-<h1>Appointments</h1>
+<mat-card>
+  <mat-card-title>Appointments</mat-card-title>
 
-<div *ngIf="loading">Loading...</div>
+  <mat-card-content>
+    <div class="toolbar">
+      <button mat-raised-button color="primary" (click)="openAdd()">
+        Termin hinzufügen
+      </button>
+    </div>
 
-<div *ngIf="!loading">
-  <h3>List</h3>
-  <ul>
-    <li *ngFor="let a of appointments">
-      Patient #{{ a.patientId }} —
-      {{ a.start }} → {{ a.end }} —
-      {{ a.reason }}
-    </li>
-  </ul>
+    <div class="loading" *ngIf="loading">
+      <mat-spinner></mat-spinner>
+    </div>
 
-  <h3 style="margin-top: 16px;">Collisions</h3>
-  <div *ngIf="collisions.length === 0">No collisions ✅</div>
+    <table mat-table [dataSource]="appointments" *ngIf="!loading" class="full-table">
 
-  <ul *ngIf="collisions.length > 0">
-    <li *ngFor="let pair of collisions">
-      Collision: Appointment {{ pair[0].id }} overlaps with {{ pair[1].id }}
-    </li>
-  </ul>
-</div>
+      <!-- Columns -->
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns; trackBy: trackById"></tr>
+    </table>
+  </mat-card-content>
+</mat-card>

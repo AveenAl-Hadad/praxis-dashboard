@@ -1,7 +1,7 @@
 <h2 mat-dialog-title>Patient hinzufügen</h2>
 
 <div mat-dialog-content>
-  <form [formGroup]="form" class="grid">
+  <form [formGroup]="form" class="form-grid">
     <mat-form-field appearance="outline">
       <mat-label>Vorname</mat-label>
       <input matInput formControlName="firstName" />
@@ -13,7 +13,7 @@
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-      <mat-label>Geburtsdatum (JJJJ-MM-TT)</mat-label>
+      <mat-label>Geburtsdatum</mat-label>
       <input matInput [matDatepicker]="picker" formControlName="birthDate" />
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
@@ -32,9 +32,7 @@
 
 <div mat-dialog-actions align="end">
   <button mat-button (click)="cancel()">Abbrechen</button>
-  <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid">Speichern</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid">
+    Speichern
+  </button>
 </div>
-
-<style>
-  .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
-</style>

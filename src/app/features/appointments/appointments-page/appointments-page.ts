@@ -1,63 +1,97 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AppointmentsService } from '../../../core/services/appointments.service';
+import { MatDialog } from '@angular/material/dialog';
+import { finalize } from 'rxjs';
+import { MATERIAL } from '../../../shared/material';
+
 import { Appointment } from '../../../core/models/appointment.model';
+import { Patient } from '../../../core/models/patient.model';
+import { AppointmentsService } from '../../../core/services/appointments.service';
+import { PatientsService } from '../../../core/services/patients.service';
+import { AddAppointmentDialog } from '../add-appointment-dialog/add-appointment-dialog';
 
 @Component({
   selector: 'app-appointments-page',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ...MATERIAL],
   templateUrl: './appointments-page.html',
 })
 export class AppointmentsPage implements OnInit {
-  loading = true;
-  appointments: Appointment[] = [];
-  collisions: Array<[Appointment, Appointment]> = [];
+  loading = false;
 
-  constructor(private appointmentsService: AppointmentsService) {}
+  patients: Patient[] = [];
+  appointments: Appointment[] = [];
+
+  displayedColumns = ['start', 'end', 'patient', 'reason'];
+
+  constructor(
+    private appointmentsService: AppointmentsService,
+    private patientsService: PatientsService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
-    this.refresh();
+    this.loadAll();
   }
 
-  refresh(): void {
+  loadAll(): void {
+    if (this.loading) return;
     this.loading = true;
-    this.appointmentsService.list().subscribe({
-      next: (data) => {
-        this.appointments = data;
-        this.collisions = this.findCollisions(data);
-        this.loading = false;
-      },
-      error: (e) => {
-        console.error(e);
-        this.loading = false;
+
+    // patients & appointments parallel laden
+    this.patientsService.list().subscribe({
+      next: (p) => (this.patients = p),
+      error: console.error,
+    });
+
+    this.appointmentsService.list()
+      .pipe(finalize(() => (this.loading = false)))
+      .subscribe({
+        next: (a) => (this.appointments = a),
+        error: (e) => console.error(e),
+      });
+  }
+
+  openAdd(): void {
+    const ref = this.dialog.open(AddAppointmentDialog, { width: '780px' });
+    ref.componentInstance.setPatients(this.patients);
+
+    ref.afterClosed().subscribe((payload: Omit<Appointment, 'id'> | undefined) => {
+      if (!payload) return;
+
+      // ✅ Collision check
+      const conflict = this.appointments.find(a => this.overlaps(a, payload));
+      if (conflict) {
+        alert(`Kollision mit Termin #${conflict.id}\n${conflict.start} – ${conflict.end}`);
+        return;
       }
+
+      this.appointmentsService.create(payload).subscribe({
+        next: (created) => {
+          // ✅ Optimistic update
+          this.appointments = [...this.appointments, created].sort(
+            (x, y) => new Date(x.start).getTime() - new Date(y.start).getTime()
+          );
+        },
+        error: (e) => console.error(e),
+      });
     });
   }
 
-  // Algorithmus: Overlap prüfen (startA < endB && startB < endA)
-  private findCollisions(list: Appointment[]): Array<[Appointment, Appointment]> {
-    const sorted = [...list].sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
-    const res: Array<[Appointment, Appointment]> = [];
-
-    for (let i = 0; i < sorted.length; i++) {
-      for (let j = i + 1; j < sorted.length; j++) {
-        // Optimierung: wenn nächster Start nach Ende ist -> break
-        if (new Date(sorted[j].start).getTime() >= new Date(sorted[i].end).getTime()) break;
-
-        if (this.overlaps(sorted[i], sorted[j])) {
-          res.push([sorted[i], sorted[j]]);
-        }
-      }
-    }
-    return res;
+  patientName(id: string): string {
+    const p = this.patients.find(x => x.id === id);
+    return p ? `${p.firstName} ${p.lastName}` : `Patient #${id}`;
   }
 
-  private overlaps(a: Appointment, b: Appointment): boolean {
-    const aStart = new Date(a.start).getTime();
-    const aEnd = new Date(a.end).getTime();
-    const bStart = new Date(b.start).getTime();
-    const bEnd = new Date(b.end).getTime();
+  trackById(i: number, a: Appointment) {
+    return a.id;
+  }
+
+  private overlaps(existing: Appointment, incoming: Omit<Appointment, 'id'>): boolean {
+    const aStart = new Date(existing.start).getTime();
+    const aEnd = new Date(existing.end).getTime();
+    const bStart = new Date(incoming.start).getTime();
+    const bEnd = new Date(incoming.end).getTime();
     return aStart < bEnd && bStart < aEnd;
   }
 }

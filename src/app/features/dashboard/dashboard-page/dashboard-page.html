@@ -1,21 +1,29 @@
 <h1>Dashboard</h1>
 
-<div *ngIf="loading">Loading...</div>
+<div class="loading" *ngIf="loading">
+  <mat-spinner></mat-spinner>
+</div>
 
-<div *ngIf="!loading" style="display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
-  <div style="border: 1px solid #ddd; padding: 12px; border-radius: 8px;">
-    <h3>Patients</h3>
-    <p>Total: <b>{{ totalPatients }}</b></p>
-  </div>
+<div class="cards" *ngIf="!loading">
+  <mat-card class="stat-card">
+    <mat-card-title>Patients</mat-card-title>
+    <mat-card-content>
+      <div class="stat-number">{{ totalPatients }}</div>
+    </mat-card-content>
+  </mat-card>
 
-  <div style="border: 1px solid #ddd; padding: 12px; border-radius: 8px;">
-    <h3>Appointments</h3>
-    <p>Total: <b>{{ totalAppointments }}</b></p>
-    <p>Today: <b>{{ todayAppointments }}</b></p>
-  </div>
+  <mat-card class="stat-card">
+    <mat-card-title>Appointments</mat-card-title>
+    <mat-card-content>
+      <div class="stat-number">{{ totalAppointments }}</div>
+      <div>Today: {{ todayAppointments }}</div>
+    </mat-card-content>
+  </mat-card>
 
-  <div style="border: 1px solid #ddd; padding: 12px; border-radius: 8px;">
-    <h3>Avg duration</h3>
-    <p><b>{{ avgAppointmentMinutes }}</b> minutes</p>
-  </div>
+  <mat-card class="stat-card">
+    <mat-card-title>Avg Duration</mat-card-title>
+    <mat-card-content>
+      <div class="stat-number">{{ avgAppointmentMinutes }} min</div>
+    </mat-card-content>
+  </mat-card>
 </div>
